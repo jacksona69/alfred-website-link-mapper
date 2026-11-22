@@ -41,7 +41,7 @@ Open **Issues** in the sidebar. **Observed responses** includes HTTP 404 and 410
 
 **Review flags** identifies pages with one or fewer incoming source pages, or one or fewer recognised content-link sources, pages at least three clicks deep, pages with at least 50 distinct outgoing HTML destinations, fetch problems, and sitemap URLs absent from the recorded link crawl. Check these in context. Unclassified links may appear within the main content, and missed sitemap URLs can result from crawl limits, blocked access or JavaScript navigation.
 
-![Issues panel showing an observed HTTP 301 response and its redirect destination](screenshots/seo-issues.png)
+<img width="725" height="690" alt="seo-issues" src="https://github.com/user-attachments/assets/1ca7a3ed-b9e1-4a22-a717-7173aa64898a" />
 
 ## Downloads and saved results
 
