@@ -61,8 +61,6 @@ Open **Issues** in the sidebar. **Observed responses** includes HTTP 404 and 410
 
 Open a project issue with your macOS, Alfred and Python versions, the crawl limits, the affected URL if public, and steps to reproduce. Share only the relevant part of a report after checking it for private URLs and query values.
 
-Workflow source and assets live in `src/`. Run `python3 -S src/test_crawler.py` for the recorded-response checks. The workflow archive uses `src/` as its root, with `info.plist`, `icon.png`, the crawler, the viewer and `LinkMapper.alfredui/` at the top level. Keep `LinkMapper.alfredui/bridge` executable. The test script belongs in the repository source.
-
 ## Author
 
 **Created by Adam Jackson** · [**jaxmore.com**](https://jaxmore.com/)
