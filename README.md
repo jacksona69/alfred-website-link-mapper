@@ -18,7 +18,7 @@ An interactive website crawler and internal link visualiser for Alfred 6. Explor
 2. Double-click the file and choose **Import** in Alfred.
 3. Open Alfred, type `linkmap` and enter a starting URL. Scheme-less input uses HTTPS.
 4. Set **Maximum depth** and **Page limit**, or keep the defaults of 10 clicks and 350 page requests. Click **Start crawl**.
-5. When the crawl finishes, click **Open map**. Use **Saved crawls** to reopen an earlier result.
+5. When the crawl finishes, the map will open and the AlfredUI dialog will close. Use **Saved crawls** to reopen an earlier result.
 
 ## Explore the map
 
