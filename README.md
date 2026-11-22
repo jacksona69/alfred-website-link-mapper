@@ -1,6 +1,6 @@
 # Website Link Mapper for Alfred 6
 
-**v0.3.10** · macOS · MIT licence
+MacOS · MIT licence
 
 An interactive website crawler and internal link visualiser for Alfred 6. Explore how pages connect, investigate incoming and outgoing links, identify poorly connected content and spot potential SEO issues.
 
