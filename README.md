@@ -57,7 +57,7 @@ Open **Issues** in the sidebar. **Observed responses** includes HTTP 404 and 410
 - The report compares links with same-host URLs in the XML sitemaps declared in robots.txt, or at `/sitemap.xml` if no sitemap was declared. It reads up to 32 sitemap or index files. Sitemap entries are an inventory for comparison and do not expand the page crawl.
 - The crawler reads server-returned HTML. Links created after page load by JavaScript, pages requiring sign-in, and pages behind anti-bot challenges can be missing or incomplete. Large crawls can take time to fetch and display. Only start a crawl on a site you are authorised to crawl.
 
-## Report an issue or contribute
+## Report an issue
 
 Open a project issue with your macOS, Alfred and Python versions, the crawl limits, the affected URL if public, and steps to reproduce. Share only the relevant part of a report after checking it for private URLs and query values.
 
