@@ -14,7 +14,7 @@ An interactive website crawler and internal link visualiser for Alfred 6. Explor
 
 ## Install and run
 
-1. Download `Website-Link-Mapper-v0.3.12.alfredworkflow` from the release assets.
+1. Download `Website-Link-Mapper-v0.4.0.alfredworkflow` from the release assets.
 2. Double-click the file and choose **Import** in Alfred.
 3. Open Alfred, type `linkmap` and enter a starting URL. Scheme-less input uses HTTPS.
 4. Set **Maximum depth** and **Page limit**, or keep the defaults of 10 clicks and 350 page requests. Click **Start crawl**.
