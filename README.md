@@ -2,67 +2,72 @@
 
 MacOS · MIT licence
 
-An interactive website crawler and internal link visualiser for Alfred 6. Explore how pages connect, investigate incoming and outgoing links, identify poorly connected content and spot potential SEO issues.
+Crawl a website and see which pages link to each other. Use **Graph** to follow links and inspect their anchor text. Use **Audit** to find pages with few incoming links from page content and export the results to CSV.
 
-<img width="1760" height="1041" alt="link-map" src="https://github.com/user-attachments/assets/5a4c798d-5e7b-4f17-ab46-ae5a350fb83c" />
+<img width="1509" height="857" alt="CleanShot 2026-11-24 at 16 47 08" src="https://github.com/user-attachments/assets/778e85df-22b2-41df-abb0-474e514e615e" />
 
-## Requirements
+## Installation
 
-- macOS 12 Monterey or later and [**Alfred 6 with the Powerpack**](https://www.alfredapp.com/help/workflows/).
-- Python 3.9 or later. If you need Python, use the macOS installer from [**python.org**](https://www.python.org/downloads/macos/) and keep its default command-line tools and symlink options. Open **Install Certificates.command** in the installed Python folder under **Applications** so HTTPS requests can verify certificates. Run `python3 --version` in Terminal to check. The workflow also detects Homebrew Python at the standard Apple Silicon and Intel paths. It uses the Python standard library, so there are no `pip` packages to install.
-- Safari or another modern default browser with JavaScript enabled, plus access to the site you want to crawl. The report itself opens from disk.
+You’ll need macOS 12 Monterey or later, [**Alfred 6 with the Powerpack**](https://www.alfredapp.com/help/workflows/), Python 3.9 or later, and a modern browser with JavaScript enabled.
 
-## Install and run
-
-1. Download `Website-Link-Mapper-v0.4.0.alfredworkflow` from the release assets.
+1. Download `Website-Link-Mapper-v0.5.0.alfredworkflow` from the release assets.
 2. Double-click the file and choose **Import** in Alfred.
-3. Open Alfred, type `linkmap` and enter a starting URL. Scheme-less input uses HTTPS.
-4. Set **Maximum depth** and **Page limit**, or keep the defaults of 10 clicks and 350 page requests. Click **Start crawl**.
-5. When the crawl finishes, the map will open and the AlfredUI dialog will close. Use **Saved crawls** to reopen an earlier result.
+3. Type `linkmap` in Alfred and enter a starting URL. If you omit the scheme, the crawler uses HTTPS.
+4. Set **Maximum depth** and **Page limit**, or keep the defaults of 10 clicks and 350 page requests. Click **Start crawl**. A successful crawl opens the report in your default browser.
 
-## Explore the map
+Run `python3 --version` in Terminal to check Python. The workflow detects standard Homebrew installations and uses Python’s standard library. If you install Python from [**python.org**](https://www.python.org/downloads/macos/), keep the default command-line tool and symlink options and run **Install Certificates.command** from the Python folder in **Applications**.
+
+## Graph
 
 | View | What it shows |
 | --- | --- |
-| **Crawl depth** | Places pages by their shortest discovered click distance from the starting URL and shows discovery links and connections around the selected page. |
-| **All links** | Shows every recorded connection between the visible nodes, subject to the filters. |
-| **Focus on page** | Shows only the selected page and its direct connections, with up to 12 neighbours in each displayed group. The sidebar lists the matching neighbours even if the graph omits some. |
+| **Crawl depth** | Pages grouped by the shortest click distance discovered from the starting URL, with discovery links and connections around the selected page. |
+| **All links** | Every recorded connection between visible nodes that matches the filters. |
+| **Focus on page** | The selected page and up to 12 direct neighbours in each displayed group. The sidebar lists the remaining matches. |
 
-- Search by page title or URL. Select a node or a sidebar entry to follow its connections. The details show the HTTP status, crawl depth, canonical URL, redirects and counts of distinct linking and linked URLs.
-- Choose **Incoming only**, **Outgoing only** or **Both directions**. The sidebar shows the source or target URL, anchor text and placement for each connection. Repeated occurrences can share one arrow.
-- **Link placement** distinguishes recognised content, navigation, header and footer links. **Unclassified** means the HTML offered no recognised placement. **Exclude menus, header & footer** includes unclassified links.
-- Switch on **Include unverified targets** to see targets left unchecked because of scope limits, robots.txt or recognised asset extensions. Search can also select a recorded target directly.
-- The selected node uses a green outline. Blue, orange and purple identify incoming, outgoing and reciprocal links around it. The small dots indicate response states, including HTML pages in green, redirects in amber and errors in red. Under an active filter, greyed-out nodes give site context and still accept clicks.
-- Drag a node to reposition it or drag the background to pan. Use **+**, **−** and **Fit** to change the zoom. The browser can remember the view, filters and node positions for each saved result when it permits local storage for the report file.
+Search by title or URL, then select a page to inspect its HTTP status, crawl depth, canonical URL, redirects and links. Switch between **Incoming only**, **Outgoing only** and **Both directions**. The sidebar lists anchor text and link placement. Blue marks incoming links, orange marks outgoing links and purple marks reciprocal links.
 
-## Review SEO findings
+Use **Link placement** to distinguish Content, Navigation, Header, Footer and Unclassified links present in the crawl. Choose **Content** to inspect recognised contextual links, or **Exclude menus, header & footer** to include Unclassified links as well. Unclassified links may still appear in page content.
 
-Open **Issues** in the sidebar. **Observed responses** includes HTTP 404 and 410 link targets, links via redirects, redirect chains, loops and links that end at a 404 or 410 after a redirect. Choose a finding and expand its source pages to see which links led to it. A recorded redirect can be intentional.
+Drag the background to pan and drag a node to move it. Use **+**, **−** and **Fit** to change the zoom. Choose **Export SVG** to save the graph.
 
-**Review flags** identifies pages with one or fewer incoming source pages, or one or fewer recognised content-link sources, pages at least three clicks deep, pages with at least 50 distinct outgoing HTML destinations, fetch problems, and sitemap URLs absent from the recorded link crawl. Check these in context. Unclassified links may appear within the main content, and missed sitemap URLs can result from crawl limits, blocked access or JavaScript navigation.
+## Audit
 
-<img width="725" height="690" alt="seo-issues" src="https://github.com/user-attachments/assets/1ca7a3ed-b9e1-4a22-a717-7173aa64898a" />
+Select **Audit** in the report header. The table starts with HTML pages and places those with the fewest recognised incoming Content links first. It uses this order:
 
-## Downloads and saved results
+1. **Incoming Content**, lowest first.
+2. **Outgoing Content**, lowest first when incoming counts tie.
+3. **Page title**, A–Z ignoring case when both counts tie.
 
-- **Download crawl JSON** saves the report data. **Export SVG** saves the displayed graph. **View crawl errors** opens the details when a page, robots.txt or sitemap request reports an error.
-- Alfred saves crawls in dated folders under `~/Library/Application Support/Website Link Mapper/Crawls/`. Click **Open results folder** in Alfred to find the HTML map, `crawl.json` and `links.csv`. The picker shows up to 50 successful results.
-- **Keep saved crawls** applies across sites. The default `0` keeps all results. Set a limit to move excess eligible result folders to the macOS Trash after a successful crawl. This option uses the system `/usr/bin/trash` if available. The workflow can still crawl and save results on Macs without it.
+Click a column heading to sort by that column. Click again to reverse the order. **Reset filters** clears your filters and restores the default sort. Use **Columns** to choose which fields to display.
 
-## Crawl behaviour and limitations
+Search by title or URL. Use **Filters** to narrow by crawl depth, status, link counts or recorded issues, or to find pages with zero incoming Content links. The zero-Content filter follows the active placement and target settings. Choose **All placements** to check for zero incoming Content links across the current target scope.
 
-- The crawler follows HTTP and HTTPS hyperlinks on the starting host and port. Other hosts and ports sit outside the crawl, including the `www` variant if you start at the bare domain. Start at the final host if the starting address redirects across hosts. Redirects within scope cost a request and add no click to crawl depth. Identical normalised URLs are fetched once. URL fragments are removed from fetch keys. Path case, trailing slashes and query strings can identify distinct URLs.
-- The crawl checks robots.txt per origin and applies matching rules, including wildcard rules and crawl delays. A 404 or 410 for robots.txt allows crawling. If access to the rules fails in another way, the crawler records the error and skips that origin. The workflow spaces request starts by at least a quarter second per origin, uses a 12-second request deadline, and stops at the depth and page-request limits you set. Robots and sitemap requests sit outside the page budget. They have separate bounds.
-- Canonical URLs found in HTML are recorded. The crawler does not treat them as navigational links or merge pages automatically. Recognised asset links may appear as targets without a fetch. Links identified as Cloudflare email obfuscation are excluded.
-- The report compares links with same-host URLs in the XML sitemaps declared in robots.txt, or at `/sitemap.xml` if no sitemap was declared. It reads up to 32 sitemap or index files. Sitemap entries are an inventory for comparison and do not expand the page crawl.
-- The crawler reads server-returned HTML. Links created after page load by JavaScript, pages requiring sign-in, and pages behind anti-bot challenges can be missing or incomplete. Large crawls can take time to fetch and display. Only start a crawl on a site you are authorised to crawl.
+Use **Show in Graph** to open a page with the current Graph filters. Audit retains its search, sort, filters, visible columns and scroll position when you switch views within the open report. **Export CSV** uses the visible data columns and includes every matching row in the current sort order, with titles and URLs in separate fields.
 
-## Report an issue
+### How link counts work
 
-Open a project issue with your macOS, Alfred and Python versions, the crawl limits, the affected URL if public, and steps to reproduce. Share only the relevant part of a report after checking it for private URLs and query values.
+- **Incoming** and **Outgoing** count distinct source and destination URLs under the active placement and target filters. Graph and Audit agree when those filters match.
+- If page A links to page B three times, the overall count is one URL pair. That pair can count once under Content and once under Unclassified if it contains links of both types. The Graph sidebar also shows the number of matching link occurrences.
+- Self-links stay in the crawl data and are excluded from relationship counts. Redirect URLs count as separate records.
+- By default, relationships can include HTML, redirects and error records. Turn on **Include unverified targets** to also count records such as skipped assets and pages blocked by robots.txt or crawl limits. In Audit, select **All recorded types** to see those records in the table.
 
-## Author
+## SEO findings and saved crawls
 
-**Created by Adam Jackson** · [**jaxmore.com**](https://jaxmore.com/)
+In Graph, open **Issues** to inspect broken links, redirects, chains and loops. **Review flags** highlights pages with few incoming or Content links, pages three or more clicks deep, pages with at least 50 outgoing HTML destinations, fetch problems and sitemap URLs absent from the link crawl. Issue counts use the full crawl. **View crawl errors** shows page, robots.txt and sitemap request errors when present.
 
-The source is available under the [**MIT licence**](LICENSE).
+Use **Saved crawls → Open map** in Alfred to reopen a report. The current viewer can open an older crawl with Audit while preserving the original files and link classifications. **Open results folder** takes you to the dated crawl folder under `~/Library/Application Support/Website Link Mapper/Crawls/`. It contains the HTML map, `crawl.json` and the raw link list, `links.csv`. **Download crawl JSON** works in both report views.
+
+**Keep saved crawls** sets a limit across all sites. The default of `0` keeps every crawl. After a successful crawl, the workflow moves excess eligible results to the macOS Trash if `/usr/bin/trash` is available.
+
+## Crawl scope
+
+The crawler follows HTTP and HTTPS links on the starting host and port. Start at the final address if the site redirects to a different host, such as a `www` variant. The crawler respects robots.txt and your crawl limits, records canonical URLs, and compares discovered URLs with same-host XML sitemap entries. Canonical URLs do not merge page records. Redirects on the same host count as requests and add no click to the depth. Recognised asset URLs can appear without a request.
+
+The crawler reads server-returned HTML. Links added by JavaScript, pages behind sign-in and pages behind anti-bot checks may be missing. Only crawl sites you’re authorised to crawl.
+
+## Support
+
+When reporting an issue, include your macOS, Alfred and Python versions, the crawl limits and steps to reproduce it. Check any shared crawl data for private URLs and query values.
+
+**Created by Adam Jackson** · [**jaxmore.com**](https://jaxmore.com/) · [**MIT licence**](LICENSE)
